@@ -12,22 +12,23 @@ const ChatList = () => {
     const { currentUser } = useUserStore();
 
     useEffect(() => {
-        const unSub  = onSnapshot(doc(db, "userChats", currentUser.id), async (res) => {
-            console.log(res);
+        const unSub = onSnapshot(
+            doc(db, "userchats", currentUser.id),
+            async (res) => {
             const items = res.data().chats;
 
             const promises = items.map(async (item) => {
-                const userDocRef = doc(db, "users", "receiverId");
+                const userDocRef = doc(db, "users", item.receiverId);
                 const userDocSnap = await getDoc(userDocRef);
 
                 const user = userDocSnap.data();
 
-                return {...item, user };
+                return { ...item, user };
             });
 
             const chatData = await Promise.all(promises);
 
-            setChats(chatData.sort((a,b)=>b.updatedAt - a.updatedAt));
+            setChats(chatData.sort((a, b) => b.updatedAt - a.updatedAt));
 
         });
 
@@ -48,7 +49,7 @@ const ChatList = () => {
             </div>
             {chats.map((chat) => (
                 <div className="item" key={chat.chatId}>
-                    <img src={chat.user.avatar || "./avatar.png"} alt="" />
+                    <img src={"./avatar.png"} alt="" />
                     <div className="texts">
                         <span>{chat.user.username}</span>
                         <p>{chat.lastMessage}</p>
