@@ -3,6 +3,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    border-bottom: 1px solid #dddddd35;
 
     .user{
         display: flex;
@@ -14,17 +15,6 @@
             height: 50px;
             border-radius: 50%;
             object-fit: cover;
-        }
-    }
-
-    .icons{
-        display: flex;
-        gap: 20px;
-
-        img{
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
         }
     }
 }

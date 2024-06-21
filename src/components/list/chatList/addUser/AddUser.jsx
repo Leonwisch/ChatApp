@@ -5,9 +5,9 @@ import { useState } from "react";
 import { useUserStore } from "../../../../library/UserStore";
 
 const AddUser = () => {
-const [user, setUser] = useState(null)
+    const [user, setUser] = useState(null)
 
-const {currentUser} = useUserStore();
+    const { currentUser } = useUserStore();
     const handleSearch = async e => {
         e.preventDefault()
         const formData = new FormData(e.target);
@@ -21,7 +21,7 @@ const {currentUser} = useUserStore();
 
             const querySnapShot = await getDocs(q);
 
-            if(!querySnapShot.empty){
+            if (!querySnapShot.empty) {
                 setUser(querySnapShot.docs[0].data());
             }
 
@@ -30,37 +30,37 @@ const {currentUser} = useUserStore();
         }
     }
 
-    const handleAdd = async () =>{
-        const chatRef = collection(db,"chats")
-        const userChatsRef = collection(db,"userchats")
+    const handleAdd = async () => {
+        const chatRef = collection(db, "chats")
+        const userChatsRef = collection(db, "userchats")
 
-        try{
+        try {
             const newChatRef = doc(chatRef);
 
-            await setDoc(newChatRef,{
+            await setDoc(newChatRef, {
                 createdAt: serverTimestamp(),
-                messages:[]
+                messages: []
             })
 
-            await updateDoc(doc(userChatsRef, user.id),{
-                chats:arrayUnion({
+            await updateDoc(doc(userChatsRef, user.id), {
+                chats: arrayUnion({
                     chatId: newChatRef.id,
-                    lastMessage:"",
+                    lastMessage: "",
                     receiverId: currentUser.id,
                     updatedAt: Date.now()
                 })
             })
 
-            await updateDoc(doc(userChatsRef, currentUser.id),{
-                chats:arrayUnion({
+            await updateDoc(doc(userChatsRef, currentUser.id), {
+                chats: arrayUnion({
                     chatId: newChatRef.id,
-                    lastMessage:"",
+                    lastMessage: "",
                     receiverId: user.id,
                     updatedAt: Date.now()
                 })
             })
 
-        }catch(err){
+        } catch (err) {
             console.log(err)
         }
 

@@ -7,11 +7,13 @@ import { useEffect } from "react"
 import { onAuthStateChanged } from "firebase/auth"
 import { auth } from "./library/firebase.js"
 import { useUserStore } from "./library/UserStore.js";
+import { useChatStore } from "./library/chatStore.js"
 
 const App = () => {
 
 
   const {currentUser, isLoading, fetchUserInfo} = useUserStore();
+  const {chatId} = useChatStore();
 
   useEffect(()=>{
     const unknownP = onAuthStateChanged(auth, (user)=>{
@@ -32,8 +34,8 @@ const App = () => {
         currentUser ? (
           <>
             <List />
-            <Chat />
-            <Detail />
+            {chatId && <Chat />}
+            {chatId && <Detail />}
           </>
         ) : (
           <Login />

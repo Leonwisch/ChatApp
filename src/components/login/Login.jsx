@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import "./login.css";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../../library/firebase";
-import { doc, setDoc } from "firebase/firestore";
+import { collection, doc, getDocs, query, setDoc, where } from "firebase/firestore";
 import upload from "../../library/upload";
 
 const Login = () => {
@@ -12,7 +12,7 @@ const Login = () => {
         url: ""
     });
 
-    const [loading,setloading] = useState(false);
+    const [loading, setloading] = useState(false);
 
     const handleAvatar = e => {
         if (e.target.files[0]) {
@@ -29,14 +29,14 @@ const Login = () => {
 
         const formData = new FormData(e.target);
 
-        const {email,password} = Object.fromEntries(formData);
-        
-        try{
-            await signInWithEmailAndPassword(auth,email,password)
-        }catch(err){
+        const { email, password } = Object.fromEntries(formData);
+
+        try {
+            await signInWithEmailAndPassword(auth, email, password)
+        } catch (err) {
             console.log(err)
             toast.error(err.message)
-        }finally{
+        } finally {
             setloading(false)
         }
     }
@@ -47,9 +47,18 @@ const Login = () => {
 
         const formData = new FormData(e.target);
 
-        const {username,email,password} = Object.fromEntries(formData);
+        const { username, email, password } = Object.fromEntries(formData);
 
-        try{
+        if (!username || !email || !password) return toast.warn("Please fill out all inputs!");
+
+        const usersRef = collection(db, "users");
+        const q = query(usersRef, where("username", "==", username));
+        const querySnapshot = await getDocs(q);
+        if (!querySnapshot.empty) {
+            return toast.warn("Select another username");
+        }
+
+        try {
 
             const res = await createUserWithEmailAndPassword(auth, email, password)
 
@@ -60,21 +69,21 @@ const Login = () => {
                 email,
                 avatar: imgUrl,
                 id: res.user.uid,
-                blocked:[],
-              });
+                blocked: [],
+            });
 
-              await setDoc(doc(db, "userchats", res.user.uid), {
-                chats:[],
-              });
+            await setDoc(doc(db, "userchats", res.user.uid), {
+                chats: [],
+            });
 
 
 
-              toast.success("Account is created! You can Log in!")
+            toast.success("Account is created! You can Log in!")
 
-        }catch(err){
+        } catch (err) {
             console.log(err);
             toast.error(err.message)
-        } finally{
+        } finally {
             setloading(false)
         }
     }
