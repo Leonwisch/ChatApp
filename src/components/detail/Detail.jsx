@@ -1,3 +1,10 @@
+/* 
+Author: Leon Fässler
+Date: 28.06.2024
+Version: 1.0
+Description: This is a chat app in the browser to chat with people.
+*/
+
 import { arrayRemove, arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { useUserStore } from "../../library/UserStore";
 import { useChatStore } from "../../library/chatStore"
@@ -42,7 +49,7 @@ const Detail = () => {
                 </div>
                 <div className="option">
                     <div className="title">
-                        <span>Privacy & help</span>
+                        <span>Shared Files</span>
                         <img src="./arrowUp.png" alt="" />
                     </div>
                 </div>
@@ -84,7 +91,7 @@ const Detail = () => {
                 </div>
                 <div className="option">
                     <div className="title">
-                        <span>Shared Files</span>
+                        <span>Privacy & help</span>
                         <img src="./arrowUp.png" alt="" />
                     </div>
                 </div>

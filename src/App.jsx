@@ -1,3 +1,9 @@
+/* 
+Author: Leon Fässler
+Date: 28.06.2024
+Version: 1.0
+Description: This is a chat app in the browser to chat with people.
+*/
 import List from "./components/list/List"
 import Chat from "./components/chat/Chat"
 import Detail from "./components/detail/Detail"

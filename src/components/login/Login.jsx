@@ -1,3 +1,9 @@
+/* 
+Author: Leon Fässler
+Date: 28.06.2024
+Version: 1.0
+Description: This is a chat app in the browser to chat with people.
+*/
 import { useState } from "react";
 import { toast } from "react-toastify";
 import "./login.css";

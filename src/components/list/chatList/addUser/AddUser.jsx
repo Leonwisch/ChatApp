@@ -1,3 +1,10 @@
+/* 
+Author: Leon Fässler
+Date: 28.06.2024
+Version: 1.0
+Description: This is a chat app in the browser to chat with people.
+*/
+
 import { arrayUnion, collection, doc, getDoc, getDocs, query, serverTimestamp, setDoc, updateDoc, where } from "firebase/firestore";
 import "./addUser.css";
 import { db } from "../../../../library/firebase";

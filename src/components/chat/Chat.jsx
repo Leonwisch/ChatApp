@@ -1,3 +1,11 @@
+/* 
+Author: Leon Fässler
+Date: 28.06.2024
+Version: 1.0
+Description: This is a chat app in the browser to chat with people.
+*/
+
+
 import { useEffect, useRef, useState } from "react"
 import "./chat.css"
 import EmojiPicker from "emoji-picker-react"
@@ -50,7 +58,7 @@ const Chat = () => {
     }
 
     const handleSend = async () => {
-        if (text === "") return;
+        if (text === "" && !img.file) return;
 
         let imgUrl = null;
 
@@ -80,7 +88,13 @@ const Chat = () => {
 
                     const chatIndex = userChatsData.chats.findIndex((c) => c.chatId === chatId)
 
-                    userChatsData.chats[chatIndex].lastMessage = text;
+                    if (text) {
+                        userChatsData.chats[chatIndex].lastMessage = text;
+                    } else {
+                        userChatsData.chats[chatIndex].lastMessage = "Image";
+                    }
+
+                    
                     userChatsData.chats[chatIndex].isSeen = id === currentUser.id ? true : false;
                     userChatsData.chats[chatIndex].updatedAt = Date.now();
 
@@ -120,8 +134,6 @@ const Chat = () => {
                             <div className="texts">
                                 {message.img && <img src={message.img} alt="" />}
                                 <p>{message.text}</p>
-
-                                {/*<span>{message.createAt}</span>*/}
                             </div>
                         </div>
                     ))}
